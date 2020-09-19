@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="jquery.js"></script>
+    <script src="data_generator.js"></script>
+    <link rel="stylesheet" type="text/css" href="style.css">
+  </head>
+  <body>
+
+    <div id="header"></div>
+    <div id="select-users"></div>
+    <div id="msgs"></div>
+    <div id="tweeting"></div>
+
+
+    <script>
+
+
+      function makeTime(mil) {
+        var m = mil % 1000
+        mil = (mil - m) / 1000
+        var s = mil % 60 
+        mil = (mil - s) / 60
+        var min = mil % 60
+        mil = (mil - min) / 60
+        var h = mil % 24
+        if (h > 0) {
+          return h + " hours ago"
+        } else if (min > 0) {
+          return min + " minutes ago"
+        } else {
+          return s + " seconds ago"
+        }
+      }
+
+      function update(){
+        var $msgs = $('#msgs');
+        $msgs.html('');
+
+        var index = streams.home.length - 1;
+        while(index >= 0){
+          var tweet = streams.home[index];
+          var $tweet = $('<div class="tweet"></div>');
+          var time = makeTime(new Date - tweet.created_at)
+          $tweet.html('@' + tweet.user + ': ' + tweet.message + " || " + time);
+          $tweet.appendTo($msgs);
+          index -= 1;
+        }
+      };
+      update()
+
+      var stopper = setInterval(update, 2000)
+
+    </script>
+  </body>
+</html>

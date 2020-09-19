@@ -1,0 +1,11 @@
+#msgs {
+	float: right;
+	margin-right: 5%;
+
+}
+.tweet {
+	border: 3px red solid;
+	margin: 5px;
+	padding: 5px;
+	font-size: 20px;
+}
