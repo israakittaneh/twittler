@@ -33,6 +33,8 @@
         }
       }
 
+
+
       function update(){
         var $msgs = $('#msgs');
         $msgs.html('');
@@ -42,15 +44,43 @@
           var tweet = streams.home[index];
           var $tweet = $('<div class="tweet"></div>');
           var time = makeTime(new Date - tweet.created_at)
-          $tweet.html('@' + tweet.user + ': ' + tweet.message + " || " + time);
+          $tweet.html( '@<p class ="user" onclick ="tweetUser(this)">' + tweet.user + '</p>: ' + tweet.message + " || " + time);
           $tweet.appendTo($msgs);
           index -= 1;
         }
       };
-      update()
+      // update();
+      var stopper;
 
-      var stopper = setInterval(update, 2000)
+       function start(){
+             update();
+             stopper = setInterval(update, 2000);
+                        }
+      start();
+      function tweetUser(that){
+        var userName = $(that)[0].innerHTML;
+        clearInterval(stopper);
+        $('#msgs div').remove();
+        var index = streams.users[userName].length - 1;
+        while(index >= 0 ){
+        var tweet = streams.users[userName][index];
+        var $tweet = $('<div class="tweet"></div>');
+        var time = makeTime(new Date - tweet.created_at)
+        $tweet.html( '@<p class ="user" onclick ="tweetUser(this)">' + tweet.user + '</p>: ' + tweet.message + " || " + time);
+        $tweet.appendTo($('#msgs'));
+        index -= 1;
+
+       }
+
+
+      $('#msgs').append("<input type = 'button' onclick='start() ' value ='back'></input>");
+
+
+      }
+
+
 
     </script>
+
   </body>
 </html>
